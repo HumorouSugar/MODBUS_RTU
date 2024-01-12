@@ -1,0 +1,4 @@
+../Core/Src/mt_port.c:29:6:EnterCriticalSection	1
+../Core/Src/mt_port.c:38:6:ExitCriticalSection	2
+../Core/Src/mt_port.c:51:6:MT_PORT_SetTimerModule	1
+../Core/Src/mt_port.c:59:6:MT_PORT_SetUartModule	1

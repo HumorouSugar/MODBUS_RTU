@@ -1,0 +1,14 @@
+../Modules/iec60870/hal/serial/win32/iec101_arm_port.c:52:14:Hal_getTimeInMs	1
+../Modules/iec60870/hal/serial/win32/iec101_arm_port.c:63:1:Hal_getTimeInNs	1
+../Modules/iec60870/hal/serial/win32/iec101_arm_port.c:76:1:SerialPort_create	2
+../Modules/iec60870/hal/serial/win32/iec101_arm_port.c:95:5:SerialPort_readByte	3
+../Modules/iec60870/hal/serial/win32/iec101_arm_port.c:123:1:SerialPort_write	3
+../Modules/iec60870/hal/serial/win32/iec101_arm_port.c:171:1:Semaphore_create	1
+../Modules/iec60870/hal/serial/win32/iec101_arm_port.c:186:1:Semaphore_wait	1
+../Modules/iec60870/hal/serial/win32/iec101_arm_port.c:200:1:Semaphore_post	1
+../Modules/iec60870/hal/serial/win32/iec101_arm_port.c:213:1:Semaphore_destroy	2
+../Modules/iec60870/hal/serial/win32/iec101_arm_port.c:225:1:Thread_create	2
+../Modules/iec60870/hal/serial/win32/iec101_arm_port.c:240:1:destroyAutomaticThread	1
+../Modules/iec60870/hal/serial/win32/iec101_arm_port.c:252:1:Thread_start	2
+../Modules/iec60870/hal/serial/win32/iec101_arm_port.c:265:1:Thread_destroy	2
+../Modules/iec60870/hal/serial/win32/iec101_arm_port.c:275:1:Thread_sleep	1

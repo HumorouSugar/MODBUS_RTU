@@ -1,0 +1,8 @@
+../Core/Src/PRIO_QUEUE_Iec10x.c:36:6:IEC10X_HighestPrio	4
+../Core/Src/PRIO_QUEUE_Iec10x.c:55:6:IEC10X_PrioInitQueue	1
+../Core/Src/PRIO_QUEUE_Iec10x.c:61:9:IEC10X_PrioEnQueue	2
+../Core/Src/PRIO_QUEUE_Iec10x.c:78:20:IEC10X_PrioDeQueue	3
+../Core/Src/PRIO_QUEUE_Iec10x.c:97:20:IEC10X_PrioFindQueueHead	2
+../Core/Src/PRIO_QUEUE_Iec10x.c:112:7:IEC10X_PeekQueue	2
+../Core/Src/PRIO_QUEUE_Iec10x.c:121:5:IEC10X_Prio_IsEmptyQueue	2
+../Core/Src/PRIO_QUEUE_Iec10x.c:130:6:IEC10X_Prio_ClearQueue	2

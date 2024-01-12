@@ -1,0 +1,8 @@
+../Modules/iec60870/link_layer/serial_transceiver_ft_1_2.c:58:1:SerialTransceiverFT12_create	24	static
+../Modules/iec60870/link_layer/serial_transceiver_ft_1_2.c:74:1:SerialTransceiverFT12_destroy	16	static
+../Modules/iec60870/link_layer/serial_transceiver_ft_1_2.c:81:1:SerialTransceiverFT12_setTimeouts	24	static
+../Modules/iec60870/link_layer/serial_transceiver_ft_1_2.c:88:1:SerialTransceiverFT12_setRawMessageHandler	24	static
+../Modules/iec60870/link_layer/serial_transceiver_ft_1_2.c:95:1:SerialTransceiverFT12_getBaudRate	16	static
+../Modules/iec60870/link_layer/serial_transceiver_ft_1_2.c:101:1:SerialTransceiverFT12_sendMessage	32	static
+../Modules/iec60870/link_layer/serial_transceiver_ft_1_2.c:110:1:readBytesWithTimeout	32	static
+../Modules/iec60870/link_layer/serial_transceiver_ft_1_2.c:128:1:SerialTransceiverFT12_readNextMessage	56	static

@@ -1,0 +1,8 @@
+../Core/Src/portserial.c:48:6:vMBPortSerialEnable	4
+../Core/Src/portserial.c:75:6:xMBPortSerialInit	1
+../Core/Src/portserial.c:83:6:xMBPortSerialPutByte	1
+../Core/Src/portserial.c:93:6:xMBPortSerialGetByte	1
+../Core/Src/portserial.c:103:13:prvvUARTTxReadyISR	1
+../Core/Src/portserial.c:111:13:prvvUARTRxISR	1
+../Core/Src/portserial.c:119:6:HAL_UART_TxCpltCallback	2
+../Core/Src/portserial.c:130:6:HAL_UART_RxCpltCallback	2

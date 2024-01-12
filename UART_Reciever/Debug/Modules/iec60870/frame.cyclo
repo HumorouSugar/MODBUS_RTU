@@ -1,0 +1,7 @@
+../Modules/iec60870/frame.c:31:1:Frame_destroy	1
+../Modules/iec60870/frame.c:37:1:Frame_resetFrame	1
+../Modules/iec60870/frame.c:43:1:Frame_setNextByte	1
+../Modules/iec60870/frame.c:49:1:Frame_appendBytes	1
+../Modules/iec60870/frame.c:55:1:Frame_getMsgSize	1
+../Modules/iec60870/frame.c:61:1:Frame_getBuffer	1
+../Modules/iec60870/frame.c:68:1:Frame_getSpaceLeft	1

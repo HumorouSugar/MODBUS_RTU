@@ -1,0 +1,9 @@
+../Modules/iec60870/cs104/cs104_frame.c:102:1:T104Frame_create	3
+../Modules/iec60870/cs104/cs104_frame.c:132:1:T104Frame_destroy	1
+../Modules/iec60870/cs104/cs104_frame.c:144:1:T104Frame_resetFrame	1
+../Modules/iec60870/cs104/cs104_frame.c:152:1:T104Frame_prepareToSend	3
+../Modules/iec60870/cs104/cs104_frame.c:166:1:T104Frame_setNextByte	1
+../Modules/iec60870/cs104/cs104_frame.c:174:1:T104Frame_appendBytes	2
+../Modules/iec60870/cs104/cs104_frame.c:189:1:T104Frame_getMsgSize	1
+../Modules/iec60870/cs104/cs104_frame.c:197:1:T104Frame_getBuffer	1
+../Modules/iec60870/cs104/cs104_frame.c:205:1:T104Frame_getSpaceLeft	1

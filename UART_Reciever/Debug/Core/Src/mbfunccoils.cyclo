@@ -1,0 +1,3 @@
+../Core/Src/mbfunccoils.c:68:1:eMBFuncReadCoils	6
+../Core/Src/mbfunccoils.c:147:1:eMBFuncWriteCoil	7
+../Core/Src/mbfunccoils.c:201:1:eMBFuncWriteMultipleCoils	7
