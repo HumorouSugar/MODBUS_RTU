@@ -35,16 +35,16 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define REG_INPUT_START 100
+#define REG_INPUT_START 1
 #define REG_INPUT_NREGS 8
 
-#define REG_COILS_START 5
-#define REG_COILS_NREGS 9
+#define REG_COILS_START 2
+#define REG_COILS_NREGS 8
 
-#define REG_DISCRETE_START 200
+#define REG_DISCRETE_START 2
 #define REG_DISCRETE_NREGS 8
 
-#define REG_HOLDING_START 10
+#define REG_HOLDING_START 1
 #define REG_HOLDING_NREGS 7
 /* USER CODE END PD */
 
@@ -63,14 +63,14 @@ UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
 extern __IO uint32_t uwTick;
-static USHORT usRegInputStart = REG_INPUT_START;
-static USHORT usRegInputBuf[REG_INPUT_NREGS] = {'M', 'o', 'd', 'b', 'u', 's', 0, 0};
+//static USHORT usRegInputStart = REG_INPUT_START;
+//static USHORT usRegInputBuf[REG_INPUT_NREGS] = {'M', 'o', 'd', 'b', 'u', 's', 0, 0};
 
-static UCHAR usRegCoilStart = REG_COILS_START;
-static UCHAR usRegCoilBuf[REG_DISCRETE_NREGS] = {0,0,0,0,0,0,0,0};
+static USHORT usRegCoilStart = REG_COILS_START;
+static USHORT usRegCoilBuf[REG_DISCRETE_NREGS] = {0,0,0,0,0,0,0,0};
 
-static UCHAR usRegDiscreteStart = REG_DISCRETE_START;
-static UCHAR usRegDiscreteBuf[REG_DISCRETE_NREGS] = {0,0,0,0,0,0,0,0};
+static USHORT usRegDiscreteStart = REG_DISCRETE_START;
+static USHORT usRegDiscreteBuf[REG_DISCRETE_NREGS] = {0,0,0,0,0,0,0,0};
 
 static USHORT usRegHoldingStart = REG_HOLDING_START;
 static USHORT usRegHoldingBuf[REG_HOLDING_NREGS] = {0,0,0,0,0,0,0};
@@ -162,8 +162,8 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 		eMBPoll();
-		usRegInputBuf[REG_INPUT_NREGS - 2] =  HAL_GetTick() / 1000;
-		usRegInputBuf[REG_INPUT_NREGS - 1] =  HAL_GetTick();
+//		usRegInputBuf[REG_INPUT_NREGS - 2] =  HAL_GetTick() / 1000;
+//		usRegInputBuf[REG_INPUT_NREGS - 1] =  HAL_GetTick();
 		HAL_RTC_GetTime(&hrtc, &sTime, RTC_FORMAT_BIN);
 		HAL_RTC_GetDate(&hrtc, &sDate, RTC_FORMAT_BIN);
 
@@ -577,8 +577,7 @@ eMBErrorCode eMBRegCoilsCB(UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNCoi
 		case MB_REG_WRITE:
 			while( iNCoils > 0 )
 			{
-				usRegCoilBuf[iRegIndex] = *pucRegBuffer++;
-				usRegCoilBuf[iRegIndex] |= *pucRegBuffer++ << 8;
+				usRegCoilBuf[iRegIndex] = (*pucRegBuffer&(0x01 << iRegIndex)) >> iRegIndex;
 				iRegIndex++;
 				iNCoils--;
 			}

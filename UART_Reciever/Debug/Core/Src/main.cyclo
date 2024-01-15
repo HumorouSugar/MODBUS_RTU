@@ -9,5 +9,5 @@
 ../Core/Src/main.c:469:14:eMBRegInputCB	1
 ../Core/Src/main.c:477:14:eMBRegHoldingCB	10
 ../Core/Src/main.c:551:14:eMBRegCoilsCB	8
-../Core/Src/main.c:598:14:eMBRegDiscreteCB	5
-../Core/Src/main.c:635:6:Error_Handler	1
+../Core/Src/main.c:597:14:eMBRegDiscreteCB	5
+../Core/Src/main.c:634:6:Error_Handler	1
