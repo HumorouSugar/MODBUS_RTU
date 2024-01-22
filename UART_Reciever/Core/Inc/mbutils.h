@@ -96,7 +96,7 @@ void            xMBUtilSetBits( UCHAR * ucByteBuf, USHORT usBitOffset,
  * ucResult = xMBUtilGetBits( ucBits, 3, 8 );
  * \endcode
  */
-UCHAR           xMBUtilGetBits( UCHAR * ucByteBuf, USHORT usBitOffset,
+UCHAR           xMBUtilGetBits( USHORT * ucByteBuf, USHORT usBitOffset,
                                 UCHAR ucNBits );
 
 /*! @} */

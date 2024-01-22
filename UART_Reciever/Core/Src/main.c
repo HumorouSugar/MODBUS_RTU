@@ -25,6 +25,7 @@
 #include "mbport.h"
 #include "mt_port.h"
 #include "errno.h"
+#include "mbutils.h"
 
 /* USER CODE END Includes */
 
@@ -39,10 +40,10 @@
 #define REG_INPUT_NREGS 8
 
 #define REG_COILS_START 2
-#define REG_COILS_NREGS 8
+#define REG_COILS_NREGS 32
 
 #define REG_DISCRETE_START 2
-#define REG_DISCRETE_NREGS 8
+#define REG_DISCRETE_NREGS 32
 
 #define REG_HOLDING_START 1
 #define REG_HOLDING_NREGS 7
@@ -66,16 +67,16 @@ extern __IO uint32_t uwTick;
 //static USHORT usRegInputStart = REG_INPUT_START;
 //static USHORT usRegInputBuf[REG_INPUT_NREGS] = {'M', 'o', 'd', 'b', 'u', 's', 0, 0};
 
-static USHORT usRegCoilStart = REG_COILS_START;
-static USHORT usRegCoilBuf[REG_DISCRETE_NREGS] = {0,0,0,0,0,0,0,0};
+static UCHAR usRegCoilStart = REG_COILS_START;
+static UCHAR usRegCoilBuf[REG_COILS_NREGS / 8];
 
-static USHORT usRegDiscreteStart = REG_DISCRETE_START;
-static USHORT usRegDiscreteBuf[REG_DISCRETE_NREGS] = {0,0,0,0,0,0,0,0};
+static UCHAR usRegDiscreteStart = REG_DISCRETE_START;
+static UCHAR usRegDiscreteBuf[REG_DISCRETE_NREGS/ 8];
 
 static USHORT usRegHoldingStart = REG_HOLDING_START;
-static USHORT usRegHoldingBuf[REG_HOLDING_NREGS] = {0,0,0,0,0,0,0};
+static USHORT usRegHoldingBuf[REG_HOLDING_NREGS];
 int a = 0;
-//char argv[20];
+
 uint8_t argv[2];
 uint32_t argc;
 
@@ -136,12 +137,6 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	MT_PORT_SetTimerModule(&htim3);
 	MT_PORT_SetUartModule(&huart1);
-
-//	const char* serialPort = "/dev/ttyUSB0";
-//	SerialPort_create(&huart1, 9600, 8, 'E',1);
-//	printCP56Time2a(56);
-//	SerialPort_destroy(serialPort);
-//	 CS101_Slave_run(&htim3);
 	eMBErrorCode eStatus;
 	eStatus = eMBInit(MB_RTU, 0x0A, 0, 19200, MB_PAR_NONE);
 	eStatus = eMBEnable();
@@ -454,14 +449,7 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-	usRegDiscreteBuf[0] = 0;
-	usRegDiscreteBuf[1] = (GPIOA->IDR & GPIO_IDR_ID4) >> 4;
-	usRegDiscreteBuf[2] = (GPIOA->IDR & GPIO_IDR_ID5) >> 5;
-	usRegDiscreteBuf[3] = (GPIOA->IDR & GPIO_IDR_ID6) >> 6;
-	usRegDiscreteBuf[4] = (GPIOA->IDR & GPIO_IDR_ID7) >> 7;
-	usRegDiscreteBuf[5] = (GPIOB->IDR & GPIO_IDR_ID0);
-	usRegDiscreteBuf[6] = (GPIOB->IDR & GPIO_IDR_ID1) >> 1;
-	usRegDiscreteBuf[7] = (GPIOB->IDR & GPIO_IDR_ID2) >> 2;
+	usRegDiscreteBuf[0] =(GPIOA->IDR & GPIO_IDR_ID7) |(GPIOA->IDR & GPIO_IDR_ID6)|(GPIOA->IDR & GPIO_IDR_ID5)|(GPIOA->IDR & GPIO_IDR_ID4)|(GPIOB->IDR & GPIO_IDR_ID2)|(GPIOB->IDR & GPIO_IDR_ID1)|(GPIOB->IDR & GPIO_IDR_ID0);
 	a = ((GPIOB->IDR & GPIO_IDR_ID0) | (GPIOB->IDR & GPIO_IDR_ID1) | (GPIOB->IDR & GPIO_IDR_ID2) | (GPIOA->IDR & GPIO_IDR_ID3)
 | (GPIOA->IDR & GPIO_IDR_ID4) | (GPIOA->IDR & GPIO_IDR_ID5) | (GPIOA->IDR & GPIO_IDR_ID6) | (GPIOA->IDR & GPIO_IDR_ID7));
 }
@@ -554,32 +542,27 @@ eMBErrorCode eMBRegCoilsCB(UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNCoi
 
 	eMBErrorCode    eStatus = MB_ENOERR;
 	short           iNCoils = ( short )usNCoils;
-	int iRegIndex = 0;
+	unsigned short  iRegIndex;
 
 	if( ( usAddress >= REG_COILS_START ) &&( usAddress + usNCoils <= REG_COILS_START + REG_COILS_NREGS ) )
 	{
-		iRegIndex = (int)(usAddress - usRegCoilStart);
+		iRegIndex = ( unsigned short )(usAddress - usRegCoilStart);
 		switch ( eMode )
 		{
 		case MB_REG_READ:
-			*pucRegBuffer = 0x00;
 			while( iNCoils > 0 )
 			{
-				if (usRegCoilBuf[iRegIndex] != 0x0000)
-				{
-					*pucRegBuffer |= ( 1 << iRegIndex);
-				}
-
-				iRegIndex++;
-				iNCoils--;
+				*pucRegBuffer++ = xMBUtilGetBits(usRegCoilBuf,iRegIndex,(unsigned char)( iNCoils >8 ? 8 :iNCoils ) );
+				iNCoils -= 8;
+				iRegIndex += 8;
 			}
 			break;
 		case MB_REG_WRITE:
 			while( iNCoils > 0 )
 			{
-				usRegCoilBuf[iRegIndex] = (*pucRegBuffer&(0x01 << iRegIndex)) >> iRegIndex;
-				iRegIndex++;
-				iNCoils--;
+				 xMBUtilSetBits( usRegCoilBuf, iRegIndex,( unsigned char )( iNCoils > 8 ? 8 : iNCoils ),*pucRegBuffer++ );
+				 iRegIndex += 8;
+				 iNCoils -= 8;
 			}
 			break;
 		}
@@ -598,21 +581,16 @@ eMBErrorCode eMBRegDiscreteCB(UCHAR * pucRegBuffer, USHORT usAddress, USHORT usN
 {
 	eMBErrorCode    eStatus = MB_ENOERR;
 	short           iNCoils = ( short )usNDiscrete;
-	int iRegIndex = 0;
+	unsigned short  iRegIndex;
 
 	if( ( usAddress >= REG_DISCRETE_START ) &&( usAddress + usNDiscrete <= REG_DISCRETE_START + REG_DISCRETE_NREGS ) )
 	{
-		iRegIndex = (int)(usAddress - usRegDiscreteStart);
-		*pucRegBuffer = 0x00;
+		iRegIndex = ( unsigned short )(usAddress - usRegDiscreteStart);
 		while( iNCoils > 0 )
 		{
-			if (usRegDiscreteBuf[iRegIndex] != 0x0000)
-			{
-				*pucRegBuffer |= ( 1 << iRegIndex);
-			}
-
-			iRegIndex++;
-			iNCoils--;
+			*pucRegBuffer++ = xMBUtilGetBits( usRegDiscreteBuf, iRegIndex,( unsigned char )( iNCoils >8 ? 8 :iNCoils ) );
+			iNCoils -= 8;
+			iRegIndex += 8;
 		}
 	}
 	else
